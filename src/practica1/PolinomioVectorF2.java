@@ -7,8 +7,8 @@ package practica1;
 
 import java.util.Scanner;
 //FALTA METODO DE SIMPLICACION
-//METODO DE MULTIPLICACION 
-//SUMA
+//METODO DE MULTIPLICACION (ya hecho) 
+//SUMA (ya hecho) 
 //METODO MOSTRAR POLINOMIO
 //METODO DE EVALUACION DE POLINOMIO 
 //IMPLETAR INTERFAZ 
@@ -22,11 +22,11 @@ public class PolinomioVectorF2 {
      *
      * @param terminos arreglo de terminos del polinomios
      */
-    public void PolinomioVectorF2(Termino[] terminos) {
+    public PolinomioVectorF2(Termino[] terminos) {
         this.terminos = terminos;
     }
 
-    public void PolinomioVectorF2() {
+    public PolinomioVectorF2() {
         terminos = null;
     }
 
@@ -107,7 +107,7 @@ public class PolinomioVectorF2 {
     }
 
     //Metodo que convierte un polinomio que esta en String en un polinomio vector forma 2
-    public Termino[] ingresoTerminos() {
+    public Termino[] ingresoTerminos() { //aun no funciona :( 
         System.out.println("Ingrese la cantidad de terminos que su polinomio posee: ");
         Scanner lectura = new Scanner(System.in);
         int Nterminos = lectura.nextInt(); //
@@ -141,17 +141,24 @@ public class PolinomioVectorF2 {
         return (false);
     }
 
-    public Termino[]  multiplicacion(PolinomioVectorF2 pol2) {
-        Termino[] aux = new Termino[this.terminos.length * pol2.terminos.length];
-        int n = 0;
-        for (int i = 0; i < this.terminos.length; i++) {
-            for (int j = 0; j < pol2.terminos.length; j++) {
-                aux[n].setE(this.terminos[i].getE() + pol2.terminos[j].getE());
-                aux[n].setC(this.terminos[i].getC() * pol2.terminos[j].getC());
-                n++;
-
+    public PolinomioVectorF2 multiplicacion(PolinomioVectorF2 pol2) { //funciona :) 
+        Termino[] terminosPol1 = this.getTerminos(); //creamos una referencia del arreglo de termino que ya tenemos 
+        Termino[] terminosPol2 = pol2.getTerminos(); //creamos una referencia del arreglo de termino que ya tenemos 
+        int cantidadTerminosPol1 = terminosPol1.length; //tomamos la cantidad de terminos que posee el polinomio1
+        int cantidadTerminosPol2 = terminosPol2.length;//tomamos la cantidad de terminos que posee el polinomio2
+        int indice3 = 0;//inicializamos el indice para el nuevo polinomio que crearemos 
+        Termino[] terminosPol3 = new Termino[cantidadTerminosPol1 * cantidadTerminosPol2]; //creamos el arreglo de terminos con el tamaño indicado
+        for (int i = 0; i < cantidadTerminosPol1; i++) { //ciclos para rellenar el nuevo arreglo
+            for (int j = 0; j < cantidadTerminosPol2; j++) {
+                terminosPol3[indice3] = new Termino(terminosPol1[i].getE() + terminosPol2[j].getE(), terminosPol1[i].getC() * terminosPol2[j].getC()); //vamos multiplicando el j-esimo coeficiente con el i-esimo coeficiente y del mismo modo con los exponentes pero sumandolos 
+                indice3++; //aumentamos el indice que se mueve dentro del nuevo polinomio
             }
         }
-       return(aux);
+        PolinomioVectorF2 pol3 = new PolinomioVectorF2(terminosPol3);
+        return (pol3); //retornamos el polinomio ya terminado 
+
     }
+    
+    
 }
+
